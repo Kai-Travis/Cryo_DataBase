@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cryo Database</title>
+</head>
+<body>
+
+<h1>Cell Lines</h1>
+
+<ul>
+{% for cell in cell_lines %}
+    <li>{{ cell[1] }}</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>

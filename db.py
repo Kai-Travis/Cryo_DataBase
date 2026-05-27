@@ -5,4 +5,4 @@ conn = psycopg.connect(
     password="rshw7Rn",
     host="localhost",
     port=5432
-)
+)   
