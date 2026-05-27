@@ -71,11 +71,12 @@ aside {
 .box-grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 2px;
+    grid-template-rows: repeat(10, 1fr);
     flex: 1;
     border: 2px solid black;
+    aspect-ratio: 1 / 1;
 }
 
-.slot{
-    aspect-ratio: 1 / 1;
+.grid-cell{
+    border: 1px solid black;
 }
