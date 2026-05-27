@@ -21,9 +21,9 @@ def home(request: Request):
     cell_lines = cur.fetchall()
 
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
-            "cell_lines":cell_lines
+        request=request,
+        name="index.html",
+        context={
+            "cell_lines": cell_lines
         }
     )
