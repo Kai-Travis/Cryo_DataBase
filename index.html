@@ -64,11 +64,15 @@
                 </div>
 
                 <div class="cell_index">
-
+                    <ul>
+                        {% for cell in cell_lines %}
+                            <li>{{ cell[1] }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
 
                 <div class="cell_summary">
-                    
+
                 </div>
             </aside>
         </main>

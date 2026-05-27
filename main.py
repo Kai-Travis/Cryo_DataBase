@@ -14,8 +14,14 @@ def home(request: Request):
     cur = conn.cursor()
 
     cur.execute("""
-                SELECT * FROM cell_lines
-                ORDER BY name
+                SELECT
+                    c.name,
+                    COUNT(f.id)
+                FROM cell_lines c
+                LEFT JOIN frozen_samples f
+                    ON c.id = f.cell_line_id
+                GROUP BY c.name
+                ORDER BY c.name
                 """)
     
     cell_lines = cur.fetchall()
