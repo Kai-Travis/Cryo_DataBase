@@ -135,7 +135,7 @@ def get_box_data(
                     c.name
                 FROM frozen_samples f
                 JOIN cell_lines c
-                    ON f.cell_line.id = c.id
+                    ON f.cell_line_id = c.id
                 WHERE
                     freezer_number = %s
                     AND rack_number = %s
