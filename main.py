@@ -131,7 +131,7 @@ def get_box_data(
     cur.execute("""
                 SELECT
                     x_pos,
-                    y_pox,
+                    y_pos,
                     c.name
                 FROM frozen_samples f
                 JOIN cell_lines c
