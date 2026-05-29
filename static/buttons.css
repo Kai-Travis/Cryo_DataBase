@@ -106,3 +106,8 @@
     margin: 0 20px;
     flex-shrink: 0;
 }
+
+.occupied {
+  background-color: lightblue;
+  font-size: 0.7rem;
+}

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 
 from pydantic import BaseModel
 from datetime import datetime
@@ -118,3 +119,29 @@ def add_vial(vial: VialCreate):
                 ))
     conn.commit()
     return {"success": True}
+
+@app.get("/box-data")
+def get_box_data(
+    freezer: int,
+    rack:int,
+    box:int
+):
+    cur = conn.cursor()
+
+    cur.execute("""
+                SELECT
+                    x_pos,
+                    y_pox,
+                    c.name
+                FROM frozen_samples f
+                JOIN cell_lines c
+                    ON f.cell_line.id = c.id
+                WHERE
+                    freezer_number = %s
+                    AND rack_number = %s
+                    AND box_number = %s
+                """, (freezer, rack, box))
+    
+    rows = cur.fetchall()
+
+    return rows

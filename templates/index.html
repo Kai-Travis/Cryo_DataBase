@@ -45,7 +45,12 @@
                                 <div class="modal-content">
                                     <h2>Vial Information</h2>
                                     <form id="vial-form">
-                                        <input type="text" name="cell_line" placeholder="Cell Line">
+                                        <input name="cell_line" placeholder="Cell Line">
+                                        <datalist id="cell_lines">
+                                            {% for cell in cell_lines%}
+                                                <option value="{{ cell[0]}}">
+                                            {% endfor %}
+                                        </datalist>
                                         <input type="number" name="passage_number" placeholder="Passage Number">
                                         <input type="text" name="frozen_by" placeholder="Frozen By">
                                         <textarea name="notes" placeholder="Notes"></textarea>

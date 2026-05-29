@@ -70,10 +70,10 @@ form.addEventListener("submit", async (event) => {
 
     const response = await fetch("/add-vial", {
         method: "POST",
+        body: JSON.stringify(data),
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(data)
     });
 
     if(response.ok) {
@@ -118,7 +118,22 @@ function renderBoxes() {
     }
 }
 
-function renderGrid() {
+async function renderGrid() {
+    const response = await fetch(
+        `/box-data?freezer=1&rack=${selectedRack}&box=${selectedBox}`
+    );
+
+    const boxData = await response.json();
+    const occupiedCells = {};
+
+    boxData.forEach(vial => {
+        const x = vial[0];
+        const y = vial[1];
+        const name = vial[2];
+
+        occupiedCells[`${x}-${y}`] = name;
+    });
+
     const grid = document.querySelector(".box-grid");
 
     grid.innerHTML= "";
@@ -127,10 +142,16 @@ function renderGrid() {
         for(let x=0; x<10; x++) {
             const cell = document.createElement("button");
             cell.classList.add("grid-cell");
-
             cell.dataset.x = x;
             cell.dataset.y = y;
 
+            const key = `${x}-${y}`;
+
+            if (occupiedCells[key]){
+                cell.textContent = occupiedCells[key];
+                cell.classList.add("occupied");
+            }
+            
             cell.addEventListener("click", () => {
                 selectedX = x;
                 selectedY = y;
