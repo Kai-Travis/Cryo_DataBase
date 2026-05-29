@@ -19,8 +19,7 @@
             
             <div>
                 <div class="freezer-div">
-                  <button class="freezer_button selected">Freezer 1</button>
-                  <button class="freezer_button">Freezer 2</button>
+                  <button class="freezer_button">Freezer 1</button>
                 </div>
 
                 <section>
@@ -45,9 +44,27 @@
                             </button>
                             <div class="box-grid">
                                 {% for i in range(100) %}
-                                    <div class="grid-cell"></div>
+                                    <button class="grid-cell"></button>
                                 {% endfor %}
                             </div>
+
+                            <div id="vial-modal" class = "modal hidden">
+                                <div class="modal-content">
+                                    <h2>Vial Information</h2>
+                                    <form>
+                                        <intput placeholder ="Vial ID">
+                                        <intput placeholder="Passage Number">
+                                        <textarea placeholder="Notes"></textarea>
+                                        <button type="submit">
+                                            Save
+                                        </button>
+                                        <button id="close-modal">
+                                            Close
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
                             <button class="box-arrow right-arrow">
                                 ▶
                             </button>
@@ -78,5 +95,6 @@
                 </div>
             </aside>
         </main>
+        <script src="/static/JS/main.js"></script>
     </body>
 </html>

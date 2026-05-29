@@ -80,3 +80,33 @@ aside {
 .grid-cell{
     border: 1px solid black;
 }
+
+
+.modal {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(0,0,0,0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+
+    border-radius: 12px;
+
+    width: 400px;
+}
+
+.hidden{
+    display: none;
+}
