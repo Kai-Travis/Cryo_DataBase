@@ -112,3 +112,7 @@ aside {
 .hidden{
     display: none;
 }
+
+.highlighted {
+    background-color: lightblue;
+}

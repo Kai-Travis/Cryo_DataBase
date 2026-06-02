@@ -1,5 +1,6 @@
 let selectedRack =1;
 let selectedBox = 1;
+let selectedCells =[];
 
 const rackButtons = document.querySelectorAll(".rack-button");
 
@@ -162,6 +163,35 @@ async function renderGrid() {
         }
     }
 }
+
+cell.addEventListener("click", () => {
+    const position = {
+        x: x,
+        y: y,
+    };
+    const alreadySelected = selectedCells.some(
+        c => c.x === x && c.y === y
+    );
+
+    if(alreadySelected) {
+        selectedCells = selectedCells.filter(
+            c => !(c.x === x && c.y === y)
+        );
+        cell.classList.remove("highlighted");
+    } else {
+        selectedCells.push(position);
+        cell.classList.add("highlighted");
+    }
+});
+
+document.getElementById("add-button")
+.addEventListener("click", () => {
+    if(selectedCells.length === 0) {
+        alert("Select cells first");
+        return;
+    }
+    modal.classList.remove("hidden")
+})
 
 renderBoxes();
 renderGrid();
