@@ -77,8 +77,9 @@ form.addEventListener("submit", async (event) => {
     });
 
     if(response.ok) {
-        alert("Vial added!");
         modal.classList.add("hidden");
+        selectedCells = [];
+        location.reload();
     }
 });
 

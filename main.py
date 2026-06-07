@@ -84,6 +84,12 @@ def add_vial(vial: VialCreate):
             cell_line_id = result[0]
 
         for cell in vial.selected_cells:
+            print(
+                "Trying:",
+                cell.x,
+                cell.y
+            )
+            
             cur.execute("""
                         INSERT  INTO frozen_samples (
                             cell_line_id,
