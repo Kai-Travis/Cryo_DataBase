@@ -230,27 +230,6 @@ async function renderGrid() {
                 cell.classList.add("occupied");
                 cell.addEventListener("dblclick", () => showVialDetails(x, y));
             }
-            
-            cell.addEventListener("click", () => {
-                const position = {
-                    x: x,
-                    y: y,
-                };
-
-                const alreadySelected = selectedCells.some(
-                    c => c.x === x && c.y === y
-                );
-
-                if(alreadySelected) {
-                    selectedCells = selectedCells.filter(
-                        c => !(c.x === x && c.y === y)
-                    );
-                    cell.classList.remove("highlighted");
-                } else {
-                    selectedCells.push(position);
-                    cell.classList.add("highlighted");
-                }
-            });
             grid.appendChild(cell);
         }
     }
