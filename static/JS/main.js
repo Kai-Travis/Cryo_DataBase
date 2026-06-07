@@ -178,6 +178,10 @@ async function renderGrid() {
     for(let y=0; y<10; y++) {
         for(let x=0; x<10; x++) {
             const cell = document.createElement("button");
+            console.log("creating cell");
+            cell.addEventListener("mousedown", () => {
+                console.log("mousedown");
+            });
             cell.classList.add("grid-cell");
             cell.dataset.x = x;
             cell.dataset.y = y;
