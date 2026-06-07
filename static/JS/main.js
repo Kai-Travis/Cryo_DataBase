@@ -6,6 +6,8 @@ let confirmCallBack = null;
 let isDragging = false;
 let dragMode = null;
 
+console.log("SCRIPT LOADED");
+
 const rackButtons = document.querySelectorAll(".rack-button");
 
 rackButtons.forEach(button => {
