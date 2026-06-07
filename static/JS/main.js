@@ -190,14 +190,6 @@ async function renderGrid() {
 }
 
 async function showVialDetails(x, y){
-    currentVial = {
-        id: data.id,
-        x,
-        y,
-        freezer: 1,
-        rack: selectedRack,
-        box: selectedBox
-    };
     const response = await fetch(
         `/vial-details?freezer=1` +
         `&rack=${selectedRack}` +
