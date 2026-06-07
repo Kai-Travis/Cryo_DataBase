@@ -35,15 +35,9 @@ const cells = document.querySelectorAll(".grid-cell");
 
 const modal = document.querySelector("#vial-modal");
 
-let selectedX = null;
-let selectedY = null;
-
 cells.forEach(cell => {
-    cell.addEventListener("click", () => {
-        toggleSelection(cell);
-    })
-
     cell.addEventListener("mousedown", () => {
+        console.log("mousedown");
         isDragging = true;
         const alreadySelected = selectedCells.some(
             c => c.x === Number(cell.dataset.x) && c.y === Number(cell.dataset.y)
