@@ -1,6 +1,8 @@
 let selectedRack =1;
 let selectedBox = 1;
 let selectedCells =[];
+let currentVial = null;
+let confirmCallBack = null;
 
 const rackButtons = document.querySelectorAll(".rack-button");
 
@@ -188,6 +190,13 @@ async function renderGrid() {
 }
 
 async function showVialDetails(x, y){
+    currentVial = {
+        x,
+        y,
+        freezer: 1,
+        rack: selectedRack,
+        box: selectedBox
+    };
     const response = await fetch(
         `/vial-details?freezer=1` +
         `&rack=${selectedRack}` +
@@ -216,6 +225,27 @@ document.getElementById("close-details")
     document.getElementById("details-modal").classList.add("hidden");
 })
 
+document.getElementById("delete-vial-btn")
+.addEventListener("click", async () => {
+    if(!currentVial) return;
+
+    showDeleteConfirmation("Delete this Vial?", async () => {
+        const response = await fetch(
+            `/delete-vial?freezer=${currentVial.freezer}` +
+            `&rack=${currentVial.rack}` +
+            `&box=${currentVial.box}` +
+            `&x=${currentVial.x}` +
+            `&y=${currentVial.y}`,
+            {
+                method: "DELETE"
+            }
+        );
+        if(response.ok) {
+            location.reload();
+        }
+    });
+});
+
 document.getElementById("add-button")
 .addEventListener("click", () => {
     if(selectedCells.length === 0) {
@@ -224,6 +254,26 @@ document.getElementById("add-button")
     }
     modal.classList.remove("hidden")
 })
+
+document.getElementById("confirm-yes")
+.addEventListener("click", async () => {
+    if(confirmCallBack) {
+        await confirmCallBack();
+    }
+
+    document.getElementById("confirm-modal").classList.add("hidden");
+});
+
+document.getElementById("confirm-no").addEventListener("click", () => {
+    document.getElementById("confirm-modal").classList.add("hidden");
+});
+
+function showDeleteConfirmation(message, callback) {
+    document.getElementById("confirm-message").textContent = message;
+    confirmCallBack = callback;
+
+    document.getElementById("confirm-modal").classList.remove("hidden");
+}
 
 renderBoxes();
 renderGrid();
