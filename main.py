@@ -82,44 +82,45 @@ def add_vial(vial: VialCreate):
     else:
         cell_line_id = result[0]
 
-    cur.execute("""
-                INSERT INTO frozen_samples (
-                    cell_line_id,
-                    freeze_passage_number,
-                    frozen_at,
-                    frozen_by,
-                
-                    freezer_number,
-                    rack_number,
-                    box_number,
-                
-                    x_pos,
-                    y_pos,
-                
-                    notes
-                )
-                
-                VALUES (
-                    %s, %s, %s, %s,
-                    %s, %s, %s,
-                    %s, %s,
-                    %s
-                )
-                """, (
-                    cell_line_id,
-                    vial.passage_number,
-                    datetime.now(),
-                    vial.frozen_by,
+    for cell in vial.selected_cells:
+        cur.execute("""
+                    INSERT  INTO frozen samples (
+                        cell_line_id,
+                        freeze_passage_number,
+                        frozen_at,
+                        frozen_by,
+                    
+                        freezer_number,
+                        rack_number,
+                        box_number,
+                    
+                        x_pos,
+                        y_pos,
+                    
+                        notes
+                    )
+                    
+                    VALUES (
+                        %s, %s, %s, %s,
+                        %s, %s, %s.
+                        %s, %s,
+                        %s
+                    )
+                    """, (
+                        cell_line_id,
+                        vial.passage_number,
+                        datetime.now(),
+                        vial.frozen_by,
 
-                    vial.freezer_number,
-                    vial.rack_number,
-                    vial.box_number,
+                        vial.freezer_number,
+                        vial.rack_number,
+                        vial.box_number,
 
-                    vial.x_pos,
-                    vial.y_pos,
+                        cell.x,
+                        cell.y,
 
-                    vial.notes
-                ))
+                        vial.notes
+                    ))
     conn.commit()
     return {"success": True}
 
