@@ -3,6 +3,8 @@ let selectedBox = 1;
 let selectedCells =[];
 let currentVial = null;
 let confirmCallBack = null;
+let isDragging = false;
+let dragMode = null;
 
 const rackButtons = document.querySelectorAll(".rack-button");
 
@@ -38,11 +40,39 @@ let selectedY = null;
 
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
-        selectedX = cell.dataset.x;
-        selectedY = cell.dataset.y;
-        modal.classList.remove("hidden");
+        toggleSelection(cell);
     })
-})
+
+    cell.addEventListener("mousedown", () => {
+        isDragging = true;
+        const alreadySelected = selectedCells.some(
+            c => c.x === Number(cell.dataset.x) && c.y === Number(cell.dataset.y)
+        );
+        if (alreadySelected) {
+            dragMode = "remove";
+            removeSelection(cell);
+        } else {
+            dragMode = "add";
+            addSelection(cell);
+        }
+    });
+
+    cell.addEventListener("mouseenter", () => {
+        if(!isDragging) return;
+        if(dragMode == "add") {
+            addSelection(cell);
+        }
+
+        if(dragMode == "remove") {
+            removeSelection(cell);
+        }
+    });
+});
+
+document.addEventListener("mouseup", () => {
+    isDragging = false;
+    dragMode = null;
+});
 
 const closeButton = document.querySelector("#close-modal");
 
@@ -186,6 +216,54 @@ async function renderGrid() {
             });
             grid.appendChild(cell);
         }
+    }
+}
+
+function addSelection(cell) {
+    const position = {
+        x: Number(cell.dataset.x),
+        y: Number(cell.dataset.y)
+    };
+
+    const alreadySelected = selectedCells.some(
+        c => c.x === position.x && c.y === position.y
+    );
+
+    if(alreadySelected) {
+        return;
+    }
+    selectedCells.push(position);
+
+    cell.classList.add("highlighted");
+}
+
+function removeSelection(cell) {
+    const position = {
+        x: Number(cell.dataset.x),
+        y: Number(cell.dataset.y)
+    };
+
+    selectedCells = selectedCells.filter(
+        c => !(c.x === position.x && c.y === position.y)
+    );
+
+    cell.classList.remove("highlighted");
+}
+
+function toggleSelection(cell) {
+    const position = {
+        x: Number(cell.dataset.x),
+        y: Number(cell.dataset.y)
+    };
+
+    const alreadySelected = selectedCells.some(
+        c => c.x === position.x && c.y === position.y
+    );
+
+    if(alreadySelected) {
+        removeSelection(cell);
+    } else {
+        addSelection(cell);
     }
 }
 
