@@ -121,7 +121,8 @@ form.addEventListener("submit", async (event) => {
     const result = await response.json();
 
     if (result.success) {
-        location.reload();
+        await refreshCellIndex();
+        await renderGrid();
     } else {
         alert(result.message);
     }
@@ -129,7 +130,8 @@ form.addEventListener("submit", async (event) => {
     if(response.ok) {
         modal.classList.add("hidden");
         selectedCells = [];
-        location.reload();
+        await refreshCellIndex();
+        await renderGrid();
     }
 });
 
@@ -309,7 +311,8 @@ document.getElementById("delete-vial-btn")
             }
         );
         if(response.ok) {
-            location.reload();
+            await refreshCellIndex();
+            await renderGrid();
         }
     });
 });
@@ -347,7 +350,8 @@ async function deleteSelectedVials() {
     const result = await response.json();
 
     if (result.success) {
-        location.reload();
+        await refreshCellIndex();
+        await renderGrid();
     }
 }
 
@@ -407,7 +411,8 @@ async function saveVial() {
     );
     const result = await response.json();
     if(result.success){
-        location.reload();
+        await refreshCellIndex();
+        await renderGrid();
     } else {
         alert("Failed to update vial");
     }
@@ -429,7 +434,8 @@ async function saveVial() {
     const result = await response.json();
 
     if(result.success) {
-        location.reload();
+        await refreshCellIndex();
+        await renderGrid();
     }
 }
 
