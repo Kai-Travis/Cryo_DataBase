@@ -7,7 +7,6 @@ let isDragging = false;
 let dragMode = null;
 
 console.log("SCRIPT LOADED");
-throw new Error("TEST ERROR");
 
 
 const rackButtons = document.querySelectorAll(".rack-button");
