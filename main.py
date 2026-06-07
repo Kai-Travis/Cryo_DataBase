@@ -45,6 +45,12 @@ class CellPosition(BaseModel):
     x: int
     y: int
 
+class DeleteRequest(BaseModel):
+    freezer_number: int
+    rack_number: int
+    box_number: int
+    selected_cells: list[CellPosition]
+
 class VialCreate(BaseModel):
     cell_line: str
     passage_number: int
@@ -201,6 +207,58 @@ def get_vial_details(
         "notes": row[4]
     }
 
+@app.delete("/delete-vial")
+def delete_vial(
+    freezer: int,
+    rack: int,
+    box: int,
+    x: int,
+    y: int
+):
+    cur = conn.cursor()
+
+    cur.execute("""
+                DELETE FROM frozen_samples
+                WHERE
+                    freezer_number = %s
+                    AND rack_number = %s
+                    AND box_number = %s
+                    AND x_pos = %s
+                    AND y_pos = %s
+                """, (
+                    freezer,
+                    rack,
+                    box,
+                    x,
+                    y
+                ))
+    conn.commit()
+
+    return{"success": True}
+
+@app.delete("/delete_vials")
+def delete_vials(req: DeleteRequest):
+
+    cur = conn.cursor()
+
+    for cell in req.selected_cells:
+        cur.execute("""
+                DELETE FROM frozen_samples
+                WHERE
+                    freezer_number = %s
+                    AND rack_number = %s
+                    AND box_number = %s
+                    AND x_pos = %s
+                    AND y_pos = %s
+                """, (
+                    freezer,
+                    rack,
+                    box,
+                    x,
+                    y
+                ))
+    conn.commit()
+    return {"success": True}
 
 @app.get("/box-data")
 def get_box_data(
