@@ -76,6 +76,14 @@ form.addEventListener("submit", async (event) => {
         },
     });
 
+    const result = await response.json();
+
+    if (result.success) {
+        location.reload();
+    } else {
+        alert(result.message);
+    }
+
     if(response.ok) {
         modal.classList.add("hidden");
         selectedCells = [];
@@ -151,6 +159,7 @@ async function renderGrid() {
             if (occupiedCells[key]){
                 cell.textContent = occupiedCells[key];
                 cell.classList.add("occupied");
+                cell.addEventListener("dblclick", () => showVialDetails(x, y));
             }
             
             cell.addEventListener("click", () => {
@@ -178,6 +187,34 @@ async function renderGrid() {
     }
 }
 
+async function showVialDetails(x, y){
+    const response = await fetch(
+        `/vial-details?freezer=1` +
+        `&rack=${selectedRack}` +
+        `&box=${selectedBox}` +
+        `&x=${x}` +
+        `&y=${y}`
+    );
+
+    const data = await response.json();
+
+    document.getElementById("detail-cell-line").textContent = data.cell_line;
+
+    document.getElementById("detail-passage").textContent = data.passage;
+
+    document.getElementById("detail-frozen-by").textContent = data.frozen_by;
+
+    document.getElementById("detail-frozen-at").textContent = data.frozen_at;
+
+    document.getElementById("detail-notes").textContent = data.notes ?? "";
+
+    document.getElementById("details-modal").classList.remove("hidden");
+}
+
+document.getElementById("close-details")
+.addEventListener("click", () => {
+    document.getElementById("details-modal").classList.add("hidden");
+})
 
 document.getElementById("add-button")
 .addEventListener("click", () => {

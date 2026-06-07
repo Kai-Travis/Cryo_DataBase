@@ -84,12 +84,31 @@ def add_vial(vial: VialCreate):
             cell_line_id = result[0]
 
         for cell in vial.selected_cells:
-            print(
-                "Trying:",
-                cell.x,
-                cell.y
-            )
+            cur.execute("""
+                        SELECT 1
+                        FROM frozen_samples
+                        WHERE
+                            freezer_number = %s
+                            AND rack_number = %s
+                            AND box_number = %s
+                            AND x_pos = %s
+                            AND y_pos = %s
+                        """, (
+                            vial.freezer_number,
+                            vial.rack_number,
+                            vial.box_number,
+                            cell.x,
+                            cell.y
+                        ))
             
+            if cur.fetchone():
+                return{
+                    "success": False,
+                    "message": f"Position ({cell.x}, {cell.y}) is already occupied"
+                }
+
+        for cell in vial.selected_cells:
+
             cur.execute("""
                         INSERT  INTO frozen_samples (
                             cell_line_id,
@@ -133,6 +152,54 @@ def add_vial(vial: VialCreate):
     except Exception as e:
         conn. rollback()
         raise e
+    
+
+@app.get("/vial-details")
+def get_vial_details(
+    freezer: int,
+    rack: int,
+    box: int,
+    x: int,
+    y: int
+):
+    cur = conn.cursor()
+
+    cur.execute("""
+                SELECT
+                    c.name,
+                    f.freeze_passage_number,
+                    f.frozen_by,
+                    f.frozen_at,
+                    f.notes
+                FROM frozen_samples f
+                JOIN cell_lines c
+                    ON c.id = f.cell_line_id
+                WHERE
+                    f.freezer_number = %s
+                    AND f.rack_number = %s
+                    AND f.box_number = %s
+                    AND f.x_pos = %s
+                    AND f.y_pos = %s
+                """, (
+                    freezer,
+                    rack,
+                    box,
+                    x,
+                    y
+                ))
+    
+    row = cur.fetchone()
+
+    if not row:
+        return {"error": "Not found"}
+    
+    return {
+        "cell_line": row[0],
+        "passage": row[1],
+        "frozen_by": row[2],
+        "frozen_at": str(row[3]),
+        "notes": row[4]
+    }
 
 
 @app.get("/box-data")
