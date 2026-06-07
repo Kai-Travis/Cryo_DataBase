@@ -287,23 +287,6 @@ function removeSelection(cell) {
     cell.classList.remove("highlighted");
 }
 
-function toggleSelection(cell) {
-    const position = {
-        x: Number(cell.dataset.x),
-        y: Number(cell.dataset.y)
-    };
-
-    const alreadySelected = selectedCells.some(
-        c => c.x === position.x && c.y === position.y
-    );
-
-    if(alreadySelected) {
-        removeSelection(cell);
-    } else {
-        addSelection(cell);
-    }
-}
-
 async function showVialDetails(x, y){
     const response = await fetch(
         `/vial-details?freezer=1` +
