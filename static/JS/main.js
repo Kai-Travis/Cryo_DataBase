@@ -191,6 +191,7 @@ async function renderGrid() {
 
 async function showVialDetails(x, y){
     currentVial = {
+        id: data.id,
         x,
         y,
         freezer: 1,
@@ -233,11 +234,7 @@ document.getElementById("delete-vial-btn")
 
     showDeleteConfirmation("Delete this Vial?", async () => {
         const response = await fetch(
-            `/delete-vial?freezer=${currentVial.freezer}` +
-            `&rack=${currentVial.rack}` +
-            `&box=${currentVial.box}` +
-            `&x=${currentVial.x}` +
-            `&y=${currentVial.y}`,
+            `/delete-vial/${currentVial.id}`,
             {
                 method: "DELETE"
             }

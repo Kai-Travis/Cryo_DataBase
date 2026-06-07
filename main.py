@@ -234,31 +234,14 @@ def get_vial_details(
         "notes": row[5]
     }
 
-@app.delete("/delete-vial")
-def delete_vial(
-    freezer: int,
-    rack: int,
-    box: int,
-    x: int,
-    y: int
-):
+@app.delete("/delete-vial/{vial_id}")
+def delete_vial(vial_id: int):
     cur = conn.cursor()
 
     cur.execute("""
                 DELETE FROM frozen_samples
-                WHERE
-                    freezer_number = %s
-                    AND rack_number = %s
-                    AND box_number = %s
-                    AND x_pos = %s
-                    AND y_pos = %s
-                """, (
-                    freezer,
-                    rack,
-                    box,
-                    x,
-                    y
-                ))
+                WHERE id = %s
+                """, (vial_id,))
     conn.commit()
 
     return{"success": True}
