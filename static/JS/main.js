@@ -68,7 +68,8 @@ function renderCellLineTable(data) {
                 <td>${row[1]}</td>
                 <td>${row[2]}</td>
                 <td>${row[3]}</td>
-                <td>${row[4]},${row[6]}</td>
+                <td>${row[4]}</td>
+                <td>${row[5]},${row[6]}</td>
             </tr>
         `;
     });
