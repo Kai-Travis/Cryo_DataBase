@@ -110,7 +110,7 @@ function renderBoxes() {
         const button = document.createElement("button");
         button.textContent = `Box ${i}`;
         button.classList.add("box-button");
-        button.dataset.box = 1;
+        button.dataset.box = i;
         button.addEventListener("click", () => {
             selectedBox = i;
             renderGrid();
@@ -154,35 +154,30 @@ async function renderGrid() {
             }
             
             cell.addEventListener("click", () => {
-                selectedX = x;
-                selectedY = y;
+                const position = {
+                    x: x,
+                    y: y,
+                };
 
-                modal.classList.remove("hidden");
+                const alreadySelected = selectedCells.some(
+                    c => c.x === x && c.y === y
+                );
+
+                if(alreadySelected) {
+                    selectedCells = selectedCells.filter(
+                        c => !(c.x === x && c.y === y)
+                    );
+                    cell.classList.remove("highlighted");
+                } else {
+                    selectedCells.push(position);
+                    cell.classList.add("highlighted");
+                }
             });
             grid.appendChild(cell);
         }
     }
 }
 
-cell.addEventListener("click", () => {
-    const position = {
-        x: x,
-        y: y,
-    };
-    const alreadySelected = selectedCells.some(
-        c => c.x === x && c.y === y
-    );
-
-    if(alreadySelected) {
-        selectedCells = selectedCells.filter(
-            c => !(c.x === x && c.y === y)
-        );
-        cell.classList.remove("highlighted");
-    } else {
-        selectedCells.push(position);
-        cell.classList.add("highlighted");
-    }
-});
 
 document.getElementById("add-button")
 .addEventListener("click", () => {
