@@ -306,7 +306,7 @@ function enableEditMode() {
     document.getElementById("delete-vial-btn").classList.add("hidden");
 }
 
-document.getElementById("cancel-edit-btn").addEventListener("click, cancelEdit");
+document.getElementById("cancel-edit-btn").addEventListener("click", cancelEdit);
 
 function cancelEdit() {
     document.getElementById("detail-passage").classList.remove("hidden");
