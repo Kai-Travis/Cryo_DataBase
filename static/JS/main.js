@@ -33,6 +33,48 @@ boxButtons.forEach(button => {
     })
 })
 
+document.querySelectorAll(".cell-line-item")
+    .forEach(item => {
+        item.addEventListener(
+            "click", async () => {
+                const cellLine = item.dataset.cellLine;
+
+                const response = await fetch(`/cell-line-details/${encodeURIComponent(cellLine)}`);
+
+                const data = await response.json();
+                renderCellLineTable(data);
+            }
+        );
+    });
+
+
+function renderCellLineTable(data) {
+    const summary = document.querySelector(".cell_summary");
+    let html = `
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Passage</th>
+                <th>Rack</th>
+                <th>Box</th>
+                <th>Position</th>
+            </tr>   
+    `;
+
+    data.forEach(row => {
+        html += `
+            <tr>
+                <td>${row[0]}</td>
+                <td>${row[1]}</td>
+                <td>${row[2]}</td>
+                <td>${row[3]}</td>
+                <td>${row[4]},${row[6]}</td>
+            </tr>
+        `;
+    });
+    html += "</table>";
+    summary.innerHTML = html;
+}
 const cells = document.querySelectorAll(".grid-cell");
 
 const modal = document.querySelector("#vial-modal");

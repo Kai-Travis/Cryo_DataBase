@@ -185,6 +185,30 @@ def update_vial(vial: UpdateVialRequest):
     conn.commit()
     return {"success": True}
 
+@app.get("/cell-line-details/{cell_line}")
+def get_cell_line_details(cell_line: str):
+    cur = conn.cursor()
+
+    cur.execute("""
+            SELECT
+                fs.id,
+                fs.freeze_passage_number,
+                fs.freezer_number,
+                fs.rack_number,
+                fs.box_number,
+                fs.x_pos,
+                fs.y_pos,
+                fs.frozen_at
+            FROM frozen_samples fs
+            JOIN cell_lines cl
+                ON fs.cell_line_id = cl.id
+            WHERE cl.name = %s
+            ORDER BY fs.frozen_at DESC
+                """, (cell_line,))
+    
+    rows = cur.fetchall()
+    return rows
+
 @app.get("/vial-details")
 def get_vial_details(
     freezer: int,
