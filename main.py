@@ -41,6 +41,10 @@ def home(request: Request):
         }
     )
 
+class CellPosition(BaseModel):
+    x: int
+    y: int
+
 class VialCreate(BaseModel):
     cell_line: str
     passage_number: int
@@ -51,8 +55,7 @@ class VialCreate(BaseModel):
     rack_number: int
     box_number: int
 
-    x_pos: int
-    y_pos: int
+    selected_cells: list[CellPosition]
 
 @app.post("/add-vial")
 
