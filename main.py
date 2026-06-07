@@ -60,69 +60,74 @@ class VialCreate(BaseModel):
 @app.post("/add-vial")
 
 def add_vial(vial: VialCreate):
-    cur = conn.cursor()
+    try:
+        cur = conn.cursor()
 
-    cur.execute("""
-                SELECT id
-                FROM cell_lines
-                WHERE name = %s
-                """, (vial.cell_line,))
-    
-    result = cur.fetchone()
-
-    if result is None:
         cur.execute("""
-                    INSERT INTO cell_lines (name)
-                    VALUES (%s)
-                    RETURNING id
+                    SELECT id
+                    FROM cell_lines
+                    WHERE name = %s
                     """, (vial.cell_line,))
         
-        cell_line_id = cur.fetchone()[0]
+        result = cur.fetchone()
 
-    else:
-        cell_line_id = result[0]
+        if result is None:
+            cur.execute("""
+                        INSERT INTO cell_lines (name)
+                        VALUES (%s)
+                        RETURNING id
+                        """, (vial.cell_line,))
+            
+            cell_line_id = cur.fetchone()[0]
 
-    for cell in vial.selected_cells:
-        cur.execute("""
-                    INSERT  INTO frozen_samples (
-                        cell_line_id,
-                        freeze_passage_number,
-                        frozen_at,
-                        frozen_by,
-                    
-                        freezer_number,
-                        rack_number,
-                        box_number,
-                    
-                        x_pos,
-                        y_pos,
-                    
-                        notes
-                    )
-                    
-                    VALUES (
-                        %s, %s, %s, %s,
-                        %s, %s, %s.
-                        %s, %s,
-                        %s
-                    )
-                    """, (
-                        cell_line_id,
-                        vial.passage_number,
-                        datetime.now(),
-                        vial.frozen_by,
+        else:
+            cell_line_id = result[0]
 
-                        vial.freezer_number,
-                        vial.rack_number,
-                        vial.box_number,
+        for cell in vial.selected_cells:
+            cur.execute("""
+                        INSERT  INTO frozen_samples (
+                            cell_line_id,
+                            freeze_passage_number,
+                            frozen_at,
+                            frozen_by,
+                        
+                            freezer_number,
+                            rack_number,
+                            box_number,
+                        
+                            x_pos,
+                            y_pos,
+                        
+                            notes
+                        )
+                        
+                        VALUES (
+                            %s, %s, %s, %s,
+                            %s, %s, %s,
+                            %s, %s,
+                            %s
+                        )
+                        """, (
+                            cell_line_id,
+                            vial.passage_number,
+                            datetime.now(),
+                            vial.frozen_by,
 
-                        cell.x,
-                        cell.y,
+                            vial.freezer_number,
+                            vial.rack_number,
+                            vial.box_number,
 
-                        vial.notes
-                    ))
-    conn.commit()
-    return {"success": True}
+                            cell.x,
+                            cell.y,
+
+                            vial.notes
+                        ))
+        conn.commit()
+        return {"success": True}
+    except Exception as e:
+        conn. rollback()
+        raise e
+
 
 @app.get("/box-data")
 def get_box_data(
