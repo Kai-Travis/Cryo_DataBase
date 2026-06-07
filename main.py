@@ -51,6 +51,12 @@ class DeleteRequest(BaseModel):
     box_number: int
     selected_cells: list[CellPosition]
 
+class UpdateVialRequest(BaseModel):
+    id: int
+    passage: int
+    frozen_by: str
+    notes: str | None = None
+
 class VialCreate(BaseModel):
     cell_line: str
     passage_number: int
@@ -160,6 +166,25 @@ def add_vial(vial: VialCreate):
         raise e
     
 
+@app.put("/update-vial")
+def update_vial(vial: UpdateVialRequest):
+    cur = conn.cursor()
+    cur.execute("""
+                UPDATE frozen_samples
+                SET
+                    freeze_passage_number = %s,
+                    frozen_by = %s,
+                    notes = %s
+                WHERE id = %s
+                """, (
+                    vial.passage,
+                    vial.frozen_by,
+                    vial.notes,
+                    vial.id
+                ))
+    conn.commit()
+    return {"success": True}
+
 @app.get("/vial-details")
 def get_vial_details(
     freezer: int,
@@ -172,6 +197,7 @@ def get_vial_details(
 
     cur.execute("""
                 SELECT
+                    f.id,
                     c.name,
                     f.freeze_passage_number,
                     f.frozen_by,
@@ -200,11 +226,12 @@ def get_vial_details(
         return {"error": "Not found"}
     
     return {
-        "cell_line": row[0],
-        "passage": row[1],
-        "frozen_by": row[2],
-        "frozen_at": str(row[3]),
-        "notes": row[4]
+        "id": row[0],
+        "cell_line": row[1],
+        "passage": row[2],
+        "frozen_by": row[3],
+        "frozen_at": str(row[4]),
+        "notes": row[5]
     }
 
 @app.delete("/delete-vial")
@@ -236,7 +263,7 @@ def delete_vial(
 
     return{"success": True}
 
-@app.delete("/delete_vials")
+@app.delete("/delete-vials")
 def delete_vials(req: DeleteRequest):
 
     cur = conn.cursor()
@@ -251,11 +278,11 @@ def delete_vials(req: DeleteRequest):
                     AND x_pos = %s
                     AND y_pos = %s
                 """, (
-                    freezer,
-                    rack,
-                    box,
-                    x,
-                    y
+                    req.freezer_number,
+                    req.rack_number,
+                    req.box_number,
+                    cell.x,
+                    cell.y
                 ))
     conn.commit()
     return {"success": True}

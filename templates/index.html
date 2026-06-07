@@ -74,10 +74,12 @@
                                     <p>
                                         <strong>Passage:</strong>
                                         <span id="detail-passage"></span>
+                                        <input id="edit-passage" class="hidden" type="number">
                                     </p>
                                     <p>
                                         <strong>Frozen By:</strong>
                                         <span id="detail-frozen-by"></span>
+                                        <input id="edit-frozen-by" class="hidden" type="text">
                                     </p>
                                     <p>
                                         <strong>Frozen At:</strong>
@@ -86,15 +88,18 @@
                                     <p>
                                         <strong>Notes:</strong>
                                         <span id="detail-notes"></span>
+                                        <textarea id="edit-notes" class="hidden"></textarea>
                                     </p>
 
                                     <div class="button_row">
                                         <button id="edit-vial-btn">
                                             Edit
                                         </button>
+                                        <button id="save-vial-btn" class="hidden">Save</button>
                                         <button id="delete-vial-btn">
                                             Delete
                                         </button>
+                                        <button id="cancel-edit-btn" class="hidden">Cancel</button>
                                         <button id="close-details">Close</button>
                                     </div>
                                 </div>
@@ -116,7 +121,7 @@
                             <div class="controls">
                                 <button id="add-button">Add Vials</button>
                                 <button id="edit-button">Edit</button>
-                                <button id="delete_button">Delete</button>
+                                <button id="delete-selected-button">Delete</button>
                             </div>
                         </div>
                     </div>

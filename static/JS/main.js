@@ -207,6 +207,8 @@ async function showVialDetails(x, y){
 
     const data = await response.json();
 
+    currentVial = data
+
     document.getElementById("detail-cell-line").textContent = data.cell_line;
 
     document.getElementById("detail-passage").textContent = data.passage;
@@ -245,6 +247,125 @@ document.getElementById("delete-vial-btn")
         }
     });
 });
+
+document.getElementById("delete-selected-button")
+.addEventListener("click", () => {
+    if (selectedCells.length === 0) {
+        alert("No cells selected");
+        return;
+    }
+
+    showDeleteConfirmation(
+        `Delete ${selectedCells.length} vial(s)?`,
+        deleteSelectedVials
+    );
+});
+
+async function deleteSelectedVials() {
+    const response = await fetch(
+        "/delete-vials",
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                freezer_number: 1,
+                rack_number: selectedRack,
+                box_number: selectedBox,
+                selected_cells: selectedCells
+            })
+        }
+    );
+
+    const result = await response.json();
+
+    if (result.success) {
+        location.reload();
+    }
+}
+
+document.getElementById("edit-vial-btn").addEventListener("click", enableEditMode);
+
+function enableEditMode() {
+    document.getElementById("edit-passage").value = document.getElementById("detail-passage").textContent;
+    document.getElementById("edit-frozen-by").value = document.getElementById("detail-frozen-by").textContent;
+    document.getElementById("edit-notes").value = document.getElementById("detail-notes").textContent;
+
+    document.getElementById("detail-passage").classList.add("hidden");
+    document.getElementById("detail-frozen-by").classList.add("hidden");
+    document.getElementById("detail-notes").classList.add("hidden");
+
+    document.getElementById("edit-passage").classList.remove("hidden");
+    document.getElementById("edit-frozen-by").classList.remove("hidden");
+    document.getElementById("edit-notes").classList.remove("hidden");
+
+    document.getElementById("save-vial-btn").classList.remove("hidden");
+    document.getElementById("cancel-edit-btn").classList.remove("hidden");
+    document.getElementById("edit-vial-btn").classList.add("hidden");
+    document.getElementById("delete-vial-btn").classList.add("hidden");
+}
+
+document.getElementById("cancel-edit-btn").addEventListener("click, cancelEdit");
+
+function cancelEdit() {
+    document.getElementById("detail-passage").classList.remove("hidden");
+    document.getElementById("detail-frozen-by").classList.remove("hidden");
+    document.getElementById("detail-notes").classList.remove("hidden");
+
+    document.getElementById("edit-passage").classList.add("hidden");
+    document.getElementById("edit-frozen-by").classList.add("hidden");
+    document.getElementById("edit-notes").classList.add("hidden");
+
+    document.getElementById("save-vial-btn").classList.add("hidden");
+    document.getElementById("cancel-edit-btn").classList.add("hidden");
+    document.getElementById("edit-vial-btn").classList.remove("hidden");
+    document.getElementById("delete-vial-btn").classList.remove("hidden");
+}
+
+document.getElementById("save-vial-btn").addEventListener("click", saveVial);
+
+async function saveVial() {
+    const response = await fetch(
+        "/update-vial",
+        {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                id: currentVial.id,
+                passage: Number(document.getElementById("edit-passage").value),
+                frozen_by: document.getElementById("edit-frozen-by").value,
+                notes: document.getElementById("edit-notes").value
+            })
+        }
+    );
+    const result = await response.json();
+    if(result.success){
+        location.reload();
+    } else {
+        alert("Failed to update vial");
+    }
+}
+
+async function saveVial() {
+    const response = await fetch(
+        "/update-vial", {
+            method: "PUT",
+            headers: {"CONTENT-Type": "application/json"},
+            body: JSON.stringify({
+                id: currentVial.id,
+                passage: document.getElementById("edit-passage").value,
+                frozen_by: document.getElementById("edit-frozen-by").value,
+                notes: document.getElementById("edit-notes").value
+            })
+        }
+    );
+    const result = await response.json();
+
+    if(result.success) {
+        location.reload();
+    }
+}
 
 document.getElementById("add-button")
 .addEventListener("click", () => {
