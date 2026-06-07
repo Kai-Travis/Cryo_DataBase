@@ -8,7 +8,6 @@ let dragMode = null;
 
 console.log("SCRIPT LOADED");
 
-
 const rackButtons = document.querySelectorAll(".rack-button");
 
 rackButtons.forEach(button => {
@@ -37,36 +36,6 @@ boxButtons.forEach(button => {
 const cells = document.querySelectorAll(".grid-cell");
 
 const modal = document.querySelector("#vial-modal");
-
-console.log(cells);
-console.log(cells.length);
-cells.forEach(cell => {
-    cell.addEventListener("mousedown", () => {
-        console.log("mousedown");
-        isDragging = true;
-        const alreadySelected = selectedCells.some(
-            c => c.x === Number(cell.dataset.x) && c.y === Number(cell.dataset.y)
-        );
-        if (alreadySelected) {
-            dragMode = "remove";
-            removeSelection(cell);
-        } else {
-            dragMode = "add";
-            addSelection(cell);
-        }
-    });
-
-    cell.addEventListener("mouseenter", () => {
-        if(!isDragging) return;
-        if(dragMode == "add") {
-            addSelection(cell);
-        }
-
-        if(dragMode == "remove") {
-            removeSelection(cell);
-        }
-    });
-});
 
 document.addEventListener("mouseup", () => {
     isDragging = false;
@@ -181,10 +150,33 @@ async function renderGrid() {
     for(let y=0; y<10; y++) {
         for(let x=0; x<10; x++) {
             const cell = document.createElement("button");
-            console.log("creating cell");
+
             cell.addEventListener("mousedown", () => {
                 console.log("mousedown");
+                isDragging = true;
+                const alreadySelected = selectedCells.some(
+                    c => c.x === Number(cell.dataset.x) && c.y === Number(cell.dataset.y)
+                );
+                if (alreadySelected) {
+                    dragMode = "remove";
+                    removeSelection(cell);
+                } else {
+                    dragMode = "add";
+                    addSelection(cell);
+                }
             });
+
+            cell.addEventListener("mouseenter", () => {
+                if(!isDragging) return;
+                if(dragMode == "add") {
+                    addSelection(cell);
+                }
+
+                if(dragMode == "remove") {
+                    removeSelection(cell);
+                }
+            });
+            
             cell.classList.add("grid-cell");
             cell.dataset.x = x;
             cell.dataset.y = y;
