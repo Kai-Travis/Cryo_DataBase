@@ -135,6 +135,33 @@ form.addEventListener("submit", async (event) => {
     }
 });
 
+async function refreshCellIndex() {
+
+    const response =
+        await fetch("/cell-index");
+
+    const data =
+        await response.json();
+
+    const container =
+        document.querySelector(
+            ".cell_index ul"
+        );
+
+    container.innerHTML = "";
+
+    data.forEach(cell => {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent =
+            `${cell[0]} (${cell[1]})`;
+
+        container.appendChild(li);
+    });
+}
+
 const freezerData ={
     1: {
         racks: {

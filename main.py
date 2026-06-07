@@ -185,6 +185,26 @@ def update_vial(vial: UpdateVialRequest):
     conn.commit()
     return {"success": True}
 
+@app.get("/cell-index")
+def get_cell_index():
+
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            cl.name,
+            COUNT(fs.id)
+        FROM cell_lines cl
+        LEFT JOIN frozen_samples fs
+            ON fs.cell_line_id = cl.id
+        GROUP BY cl.name
+        ORDER BY cl.name
+    """)
+
+    rows = cur.fetchall()
+
+    return rows
+
 @app.get("/cell-line-details/{cell_line}")
 def get_cell_line_details(cell_line: str):
     cur = conn.cursor()
