@@ -84,7 +84,7 @@ def add_vial(vial: VialCreate):
 
     for cell in vial.selected_cells:
         cur.execute("""
-                    INSERT  INTO frozen samples (
+                    INSERT  INTO frozen_samples (
                         cell_line_id,
                         freeze_passage_number,
                         frozen_at,
