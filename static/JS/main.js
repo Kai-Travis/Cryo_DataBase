@@ -35,6 +35,8 @@ const cells = document.querySelectorAll(".grid-cell");
 
 const modal = document.querySelector("#vial-modal");
 
+console.log(cells);
+console.log(cells.length);
 cells.forEach(cell => {
     cell.addEventListener("mousedown", () => {
         console.log("mousedown");
