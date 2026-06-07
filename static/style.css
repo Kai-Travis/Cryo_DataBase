@@ -114,5 +114,10 @@ aside {
 }
 
 .highlighted {
-    background-color: lightblue;
+    outline: 3px solid blue;
+}
+
+.occupied {
+  background-color: lightcoral;
+  font-size: 0.7rem;
 }

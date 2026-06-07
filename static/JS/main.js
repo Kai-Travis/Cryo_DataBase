@@ -61,8 +61,7 @@ form.addEventListener("submit", async (event) => {
         frozen_by: formData.get("frozen_by"),
         notes: formData.get("notes"),
 
-        x_pos: selectedX,
-        y_pos: selectedY,
+        selected_cells: selectedCells,
 
         freezer_number: 1,
         rack_number: selectedRack,
