@@ -52,6 +52,10 @@
     background-image: linear-gradient(#4c8dff, #2563eb);
 }
 
+.box-button.selected {
+  background-color: #464d55;
+}
+
 .rack-button {
   backface-visibility: hidden;
   border: 0;
@@ -85,15 +89,16 @@
 }
 
 #rack2 {
-    background-color: white;
-}
-
-#rack3 {
     background-color: green;
 }
 
-#rack4 {
+#rack3 {
     background-color: yellow;
+}
+
+#rack4 {
+    background-color: white;
+    border: solid 1px black;
 }
 
 .box-arrow {

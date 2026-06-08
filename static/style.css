@@ -121,3 +121,20 @@ aside {
   background-color: lightcoral;
   font-size: 0.7rem;
 }
+
+.box-btn-div-1{
+    background-color: red;
+}
+
+.box-btn-div-2{
+    background-color: green;
+}
+
+.box-btn-div-3{
+    background-color: yellow;
+}
+
+.box-btn-div-4{
+    background-color: white;
+    border: solid 1px black;
+}
