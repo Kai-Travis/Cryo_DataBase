@@ -12,7 +12,7 @@ from db import conn
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
+app.mount("/Assets", StaticFiles(directory="Assets"), name="assets")
 templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
