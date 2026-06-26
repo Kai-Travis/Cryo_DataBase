@@ -349,7 +349,7 @@ document.getElementById("delete-vial-btn")
     });
 });
 
-document.getElementById("delete-selected-button")
+document.querySelector("delete-selected-button")
 .addEventListener("click", () => {
     if (selectedCells.length === 0) {
         alert("No cells selected");
@@ -471,7 +471,7 @@ async function saveVial() {
     }
 }
 
-document.getElementById("add-button")
+document.querySelector("add-button")
 .addEventListener("click", () => {
     if(selectedCells.length === 0) {
         alert("Select cells first");
