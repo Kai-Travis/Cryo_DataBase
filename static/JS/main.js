@@ -10,7 +10,7 @@ console.log("SCRIPT LOADED");
 
 const rackButtons = document.querySelectorAll(".rack-button");
 
-const boxButtonDiv = document.querySelector(".box-buttons-div")
+const boxButtonDiv = document.querySelector(".rack-view")
 
 rackButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -19,7 +19,7 @@ rackButtons.forEach(button => {
             b.classList.remove("selected");
         });
         button.classList.add("selected");
-        boxButtonDiv.className= `box-buttons-div box-btn-div-${selectedRack}`;
+        boxButtonDiv.className= `rack-view box-btn-div-${selectedRack}`;
         renderBoxes();
     });
 });

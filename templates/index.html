@@ -37,33 +37,38 @@
                         <div class="table">
                             <div class="box-grid">
                             </div>
-
                             <div id="vial-modal" class = "modal hidden">
                                 <div class="modal-content">
-                                    <h2>Vial Information</h2>
+                                    <h2 style="color: rgb(133, 41, 238);">Vial Information</h2>
                                     <form id="vial-form">
-                                        <input name="cell_line" placeholder="Cell Line">
+                                        <l>Cell Line</l>
+                                        <input name="cell_line" placeholder="Cell Line" class="input">
                                         <datalist id="cell_lines">
                                             {% for cell in cell_lines%}
                                                 <option value="{{ cell[0]}}">
                                             {% endfor %}
                                         </datalist>
-                                        <input type="number" name="passage_number" placeholder="Passage Number">
-                                        <input type="text" name="frozen_by" placeholder="Frozen By">
+                                        <l>Passage Number</l>
+                                        <input type="number" name="passage_number" placeholder="Passage Number" class="input">
+                                        <l>Frozen By</l>
+                                        <input type="text" name="frozen_by" placeholder="Frozen By" class="input">
+                                        <l>Notes</l>
                                         <textarea name="notes" placeholder="Notes"></textarea>
-                                        <button type="submit">
-                                            Save
-                                        </button>
-                                        <button type="button" id="close-modal">
-                                            Close
-                                        </button>
+                                        <div>
+                                            <button type="submit" class="form-btns" style="background-color: black; color: white;">
+                                                Save
+                                            </button>
+                                            <button type="button" id="close-modal" class="form-btns" style="background-color: rgb(182, 182, 182);">
+                                                Close
+                                            </button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
-
+                            
                             <div id="details-modal" class="modal hidden">
                                 <div class="modal-content">
-                                    <h2>Vial Details</h2>
+                                    <h2 style="color: rgb(133, 41, 238);">Vial Details</h2>
                                     <p>
                                         <strong>Cell Line:</strong>
                                         <span id ="detail-cell-line"></span>
@@ -89,31 +94,35 @@
                                     </p>
 
                                     <div class="button_row">
-                                        <button id="edit-vial-btn">
+                                        <button id="edit-vial-btn" class="form-btns" style="background-color: black; color: white;">
                                             Edit
                                         </button>
-                                        <button id="save-vial-btn" class="hidden">Save</button>
-                                        <button id="delete-vial-btn">
+                                        <button id="save-vial-btn" class="hidden form-btns">Save</button>
+                                        <button id="delete-vial-btn" class="form-btns" style="background-color: rgb(218, 30, 30); color: white;">
                                             Delete
                                         </button>
-                                        <button id="cancel-edit-btn" class="hidden">Cancel</button>
-                                        <button id="close-details">Close</button>
+                                        <button id="cancel-edit-btn" class="hidden form-btns">Cancel</button>
+                                        <button id="close-details" class="form-btns" style="background-color: rgb(182, 182, 182);">Close</button>
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div id="confirm-modal" class="modal hidden">
                                 <div class="modal-content">
                                     <h3>Confirm Delete</h3>
                                     <p id="confirm-message"></p>
-                                    <button id="confirm-yes">Delete</button>
-                                    <button id="confirm-no">Cancel</button>
+                                    <button id="confirm-yes" class="form-btns" style="background-color: rgb(218, 30, 30); color: white;">Delete</button>
+                                    <button id="confirm-no" class="form-btns" style="background-color: rgb(182, 182, 182);">Cancel</button>
                                 </div>
                             </div>
 
                             <div class="controls">
-                                <button id="add-button">Add Vials</button>
-                                <button id="delete-selected-button">Delete</button>
+                                <button class="add-button">
+                                    <span class="plus">+</span>
+                                    Add Vials</button>
+                                <button class="delete-selected-button">
+                                    <span class="delete-icon">🗑</span>
+                                    Delete</button>
                             </div>
                         </div>
                     </div>
