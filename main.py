@@ -23,11 +23,15 @@ def home(request: Request):
     cur.execute("""
                 SELECT
                     c.name,
-                    COUNT(f.id)
+                    COUNT(f.id),
+                    c.colour
                 FROM cell_lines c
                 LEFT JOIN frozen_samples f
                     ON c.id = f.cell_line_id
-                GROUP BY c.name
+                GROUP BY
+                    c.id,
+                    c.name,
+                    c.colour
                 ORDER BY c.name
                 """)
     
@@ -198,7 +202,10 @@ def get_cell_index():
         FROM cell_lines cl
         LEFT JOIN frozen_samples fs
             ON fs.cell_line_id = cl.id
-        GROUP BY cl.name
+        GROUP BY
+                cl.id,
+                cl.name,
+                cl.colour
         ORDER BY cl.name
     """)
 
