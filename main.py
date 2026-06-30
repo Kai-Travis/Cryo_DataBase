@@ -193,7 +193,8 @@ def get_cell_index():
     cur.execute("""
         SELECT
             cl.name,
-            COUNT(fs.id)
+            COUNT(fs.id),
+            cl.colour
         FROM cell_lines cl
         LEFT JOIN frozen_samples fs
             ON fs.cell_line_id = cl.id
