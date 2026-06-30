@@ -24,20 +24,6 @@ rackButtons.forEach(button => {
     });
 });
 
-
-
-const boxButtons = document.querySelectorAll(".box-button");
-
-boxButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        selectedBox = button.dataset.box;
-        boxButtons.forEach(b => {
-            b.classList.remove("selected");
-        });
-        button.classList.add("selected");
-    })
-})
-
 document.querySelectorAll(".cell-line-item")
     .forEach(item => {
         item.addEventListener(
@@ -197,6 +183,10 @@ function renderBoxes() {
         button.dataset.box = i;
         button.addEventListener("click", () => {
             selectedBox = i;
+            document.querySelectorAll(".box-button").forEach(b => {
+                b.classList.remove("selected");
+            })
+            button.classList.add("selected");
             renderGrid();
         });
         container.appendChild(button);
