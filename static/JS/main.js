@@ -5,8 +5,76 @@ let currentVial = null;
 let confirmCallBack = null;
 let isDragging = false;
 let dragMode = null;
+let selectedColour = null;
 
 console.log("SCRIPT LOADED");
+
+const COLOUR_PALETTE = [
+    "#460809",
+    "#82181a",
+    "#9f0712",
+    "#c10007",
+    "#e7000b",
+    "#441306",
+    "#9f2d00",
+    "#ca3500",
+    "#f54900",
+    "#ff6900",
+    "#973c00",
+    "#bb4d00",
+    "#733e0a",
+    "#a65f00",
+    "#d08700",
+    "#efb100",
+    "#fcc800",
+    "#192e03",
+    "#35530e",
+    "#3c6300",
+    "#497d00",
+    "#5ea500",
+    "#7ccf00",
+    "#0d542b",
+    "#016630",
+    "#008236",
+    "#00a63e",
+    "#00c950",
+    "#0b4f4a",
+    "#005f5a",
+    "#00786f",
+    "#009689",
+    "#00bba7",
+    "#00d5be",
+    "#052f4a",
+    "#024a70",
+    "#00598a",
+    "#0069a8",
+    "#0084d1",
+    "#00a6f4",
+    "#1e1a4d",
+    "#312c85",
+    "#372aac",
+    "#432dd7",
+    "#4f39f6",
+    "#615fff",
+    "#3c0366",
+    "#59168b",
+    "#6e11b0",
+    "#8200db",
+    "#9810fa",
+    "#ad46ff",
+    "#4d0218",
+    "#8b0836",
+    "#a50036",
+    "#c70036",
+    "#ec003f",
+    "#ff2056",
+    "#171717",
+    "#262626",
+    "#1d161e",
+    "#463947",
+    "#67787c",
+    "#90a1b9",
+];
 
 const rackButtons = document.querySelectorAll(".rack-button");
 
@@ -153,6 +221,17 @@ async function refreshCellIndex() {
     });
 }
 
+const picker = document.querySelector(".colour-picker");
+COLOUR_PALETTE.forEach(colour => {
+    const swatch = document.createElement("button");
+    swatch.classList.add("colour-swatch");
+    swatch.style.backgroundColor = colour;
+    swatch.addEventListener("click", () => {
+        selectedColour = colour;
+    });
+    picker.appendChild(swatch);
+});
+
 const freezerData ={
     1: {
         racks: {
@@ -205,8 +284,9 @@ async function renderGrid() {
         const x = vial[0];
         const y = vial[1];
         const name = vial[2];
+        const colour = vial[3];
 
-        occupiedCells[`${x}-${y}`] = name;
+        occupiedCells[`${x}-${y}`] = {name: name, colour: colour};
     });
 
     const grid = document.querySelector(".box-grid");
@@ -250,7 +330,9 @@ async function renderGrid() {
             const key = `${x}-${y}`;
 
             if (occupiedCells[key]){
-                cell.textContent = occupiedCells[key];
+                const vial = occupiedCells[key];
+                cell.textContent = vial.name;
+                cell.style.backgroundColor = vial.colour;
                 cell.classList.add("occupied");
                 cell.addEventListener("dblclick", () => showVialDetails(x, y));
             }

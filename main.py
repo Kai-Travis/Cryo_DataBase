@@ -326,7 +326,8 @@ def get_box_data(
                 SELECT
                     x_pos,
                     y_pos,
-                    c.name
+                    c.name,
+                    c.colour
                 FROM frozen_samples f
                 JOIN cell_lines c
                     ON f.cell_line_id = c.id

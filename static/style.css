@@ -38,6 +38,41 @@ aside {
     margin: 10px;
 }
 
+.cell-line-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cell-line-item {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.cell-line-item:hover {
+    background-color: #f2f2f2;
+}
+
+.cell-line-item:active {
+    background-color: #dddddd;
+}
+
+.colour-box {
+    width: 14px;
+    height: 14px;
+
+    border-radius: 3px;
+    border: 1px solid #888;
+
+    flex-shrink: 0;
+}
+
 .rack-view {
     background-color: grey;
     min-height: 450px;
@@ -118,6 +153,25 @@ aside {
 
 .hidden{
     display: none;
+}
+
+.colour-picker-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.colour-picker {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+}
+
+.colour-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 #vial-form {

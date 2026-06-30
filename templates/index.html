@@ -65,10 +65,6 @@
                                     </form>
                                 </div>
                             </div>
-
-                            <div class="coloor-picker hidden">
-                                <button class=""></button>
-                            </div>
                             
                             <div id="details-modal" class="modal hidden">
                                 <div class="modal-content">
@@ -143,14 +139,26 @@
                 </div>
 
                 <div class="cell_index">
-                    <ul>
+                    <ul class="cell-line-list">
                         {% for cell in cell_lines %}
-                            <li class="cell-line-item" data-cell-line="{{ cell [0] }}">{{ cell[0] }} ({{cell[1]}})</li>
+                            <li class="cell-line-item" data-cell-line="{{ cell [0] }}">
+                                <span class="colour-box" style="background-color: {{ cell[2] }};"></span>
+                                <span class="cell-line-name"> {{ cell[0]}} ({{ cell[1] }})</span>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>
-
-                <div class="cell_summary">
+                <div class="modal cell-summary hidden">
+                    
+                </div>
+                <div id ="colour-picker-modal" class="modal hidden">
+                    <div class="colour-picker-content">
+                        <h3>Choose Le Couleur</h3>
+                        <div class="colour-picker"></div>
+                       <button id ="close-colour-modal">Close</button>
+                    </div>
+                </div>
+                <div id="cell-summary-modal" class="modal hidden">
 
                 </div>
             </aside>
