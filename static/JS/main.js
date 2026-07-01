@@ -134,7 +134,6 @@ function renderCellLineTable(data) {
     html += "</table>";
     summary.innerHTML = html;
 }
-const cells = document.querySelectorAll(".grid-cell");
 
 const modal = document.querySelector("#vial-modal");
 
@@ -571,6 +570,26 @@ function showDeleteConfirmation(message, callback) {
 
     document.getElementById("confirm-modal").classList.remove("hidden");
 }
+
+const cellLines = document.querySelectorAll(".cell-line-item")
+
+const cellDetails = document.getElementById("cell-summary-window");
+
+const cellWindow = document.getElementById("close-summary-window");
+
+cellLines.forEach(cellLine => {
+    cellLine.addEventListener("click", () => {
+        cellDetails.classList.remove("hidden");
+    });
+});
+
+cellWindow.addEventListener("click", () => {
+    cellDetails.classList.add("hidden");
+});
+
+
+
+
 
 renderBoxes();
 renderGrid();

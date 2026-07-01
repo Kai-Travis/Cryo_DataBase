@@ -73,6 +73,16 @@ aside {
     flex-shrink: 0;
 }
 
+.cell-summary {
+    background-color: white;
+    width: 700px;
+    height: 500px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
 .rack-view {
     background-color: grey;
     min-height: 450px;
